@@ -1,0 +1,7 @@
+mattoid-store-invite-prohibit:
+  admin:
+    settings:
+      group-view: 拥有购买权限
+
+  forum:
+    title: 禁止邀请
