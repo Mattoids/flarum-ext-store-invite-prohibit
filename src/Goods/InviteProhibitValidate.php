@@ -2,15 +2,11 @@
 
 namespace Mattoid\StoreInviteProhibit\Goods;
 
-use Carbon\Carbon;
 use Flarum\Foundation\ValidationException;
-use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\User;
-use Illuminate\Contracts\Cache\Repository;
 use Mattoid\Store\Goods\Validate;
 use Mattoid\Store\Model\StoreModel;
-use Mattoid\StoreInvite\Model\InviteModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class InviteProhibitValidate extends Validate
@@ -30,7 +26,7 @@ class InviteProhibitValidate extends Validate
             return false;
         }
 
-        $groupIds = array_column(json_decode(json_encode($user->groups)), 'id');
+        $groupIds = $user->groups->pluck('id')->all();
         if ($user->can('mattoid-store-invite.group-blacklist-view') && !in_array('1', $groupIds)) {
             throw new PermissionDeniedException();
             return false;
